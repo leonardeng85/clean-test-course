@@ -40,3 +40,5 @@ jobs:
         coverage run -m --source=./hangry_api pytest
         coverage report
       working-directory: backend
+
+      .github/workflows/lesson-2.yaml
