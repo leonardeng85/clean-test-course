@@ -19,9 +19,6 @@ jobs:
           hangry_api/hangry_api/settings.py
       - name: PyCharm Python Security Scanner
         uses: tonybaloney/pycharm-security@1.25.1
-  build_and_test:
-    needs: [security_test]
-    runs-on: ubuntu-latest
 
   build_and_test:
     runs-on: ubuntu-latest
