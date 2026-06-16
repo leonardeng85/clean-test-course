@@ -1,14 +1,18 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { API_URL } from '../../utils/constants';
 import axios from 'axios';
 import Home from '.';
 
 describe('Test Home', () => {
-  test('Test Render', async () => {
-    //Arrange: Setup the mock API
-    //Listen for any GET requests using the axios module
-    const mockGet = jest.spyOn(axios, 'get');
-    //Intercept the GET requests and provide a mocked response
+  // 1. Move the spy here so it is accessible to all tests in this block
+  const mockGet = jest.spyOn(axios, 'get');
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  // Helper function to avoid repeating the same mock data logic
+  const setupMockSuccess = () => {
     mockGet.mockImplementation((url) => {
       switch (url) {
         case `${API_URL}/api/category/?format=json`:
@@ -16,35 +20,41 @@ describe('Test Home', () => {
             data: {
               status: 'success',
               data: [
-                {
-                  id: 1,
-                  name: 'Handhelds',
-                  description: "So big, you don't need thumbs.",
-                },
-                {
-                  id: 2,
-                  name: 'Appeteasers',
-                  description: 'Tease the hangry hippo, he get hangrier',
-                },
+                { id: 1, name: 'Handhelds', description: "So big, you don't need thumbs." },
+                { id: 2, name: 'Appeteasers', description: 'Tease the hangry hippo, he get hangrier' },
               ],
             },
           });
         default:
-          return Promise.resolve({
-            data: {
-              status: 'fail',
-            },
-          });
+          return Promise.resolve({ data: { status: 'fail' } });
       }
     });
+  };
 
-    //Act: Call the Home page
+  test('should render categories successfully', async () => {
+    // Arrange
+    setupMockSuccess();
+
+    // Act
     render(<Home />);
 
-    //Assert: Check the values in the rendered Home page.
-    //There should be 2 categories as defined in the mock response above
-    expect(await screen.findAllByTestId(/category-item/i)).toHaveLength(2);
-    //The word Appeateasers should be in there as defined in the mock response above.
+    // Assert
+    const items = await screen.findAllByTestId(/category-item/i);
+    expect(items).toHaveLength(2);
     expect(await screen.findByText('Appeteasers')).toBeInTheDocument();
+  });
+
+  test('should handle API failure gracefully', async () => {
+    // Arrange: Mock a failure scenario
+    mockGet.mockImplementation(() => 
+      Promise.resolve({ data: { status: 'fail' } })
+    );
+
+    // Act
+    render(<Home />);
+
+    // Assert: Check that items are NOT rendered (or error message is shown)
+    const items = screen.queryAllByTestId(/category-item/i);
+    expect(items).toHaveLength(0);
   });
 });
