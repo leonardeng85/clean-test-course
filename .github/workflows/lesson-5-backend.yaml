@@ -5,6 +5,21 @@ on:
     branches:
       - lesson-5
 jobs:
+  security_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    name: Execute Pycharm security test
+    steps:
+      - uses: actions/checkout@v4
+      - name: disable debug
+        run: |
+          sed -i 's/DEBUG = True/DEBUG = False/g' \
+          hangry_api/hangry_api/settings.py
+      - name: PyCharm Python Security Scanner
+        uses: tonybaloney/pycharm-security@1.25.1
+
   build_and_test:
     runs-on: ubuntu-latest
     defaults:
@@ -32,7 +47,11 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
+      - name: Disable Debug
+        run: |
+          sed -i 's/DEBUG = True/DEBUG = False/g' hangry_api/hangry_api/settings.py
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
       - name: '**PLACEHOLDER** Deploy to Elastic Beanstalk'
         run: echo Placeholder for Deployment
+
