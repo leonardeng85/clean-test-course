@@ -27,5 +27,9 @@ class Total():
   def calculate(order, deliveryFee):
     subTotal = Subtotal.calculate(order)
     total = (subTotal + deliveryFee) * 1.0825
+<<<<<<< HEAD
     return (0,round(total,2)) [ round(total,2) > 0 ]
     
+=======
+    return (0,round(total,2)) [ round(total,2) > 0 ]
+>>>>>>> lesson-6

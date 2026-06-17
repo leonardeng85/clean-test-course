@@ -1,6 +1,10 @@
 describe('Hits Home Page', () => {
   it('passes', () => {
+<<<<<<< HEAD
     cy.visit('https://hangryhippo.quantic.host/');
+=======
+    cy.visit('http://hangryweb-env.eba-vdyerazm.us-east-1.elasticbeanstalk.com/');
+>>>>>>> lesson-6
   });
   it('displays the Welcome message', () => {
     // We use the `cy.get()` command to get all elements that match the selector.
@@ -25,7 +29,11 @@ describe('Hits Home Page', () => {
 
 describe('Hits Order Page', () => {
   it('passes', () => {
+<<<<<<< HEAD
     cy.visit('https://hangryhippo.quantic.host/order');
+=======
+    cy.visit('http://hangryweb-env.eba-vdyerazm.us-east-1.elasticbeanstalk.com/order');
+>>>>>>> lesson-6
   });
   it('shows Your Order title', () => {
     // We use the `cy.get()` command to get all elements that match the selector.

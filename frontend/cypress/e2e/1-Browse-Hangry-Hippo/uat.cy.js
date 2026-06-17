@@ -3,6 +3,7 @@ describe('Shows Appeteasers', () => {
     cy.visit('https://hangryhippo.quantic.host/');
   });
   it('selects Handhelds', () => {
+<<<<<<< HEAD
     //Navigate to Handhelds.  This makes sure that the link actually exists.
     cy.contains('Handhelds').click();
     //Check if Cheese Burger is there.
@@ -18,6 +19,16 @@ describe('Shows Appeteasers', () => {
     //Check if Buffalo Wings is there.
     cy.contains('Buffalo Wings');
     //Make sure that the Handhelds DO NOT EXIST
+=======
+    cy.contains('Handhelds').click();
+    cy.contains('Cheese Burger');
+    cy.contains('Fajita Tacos');
+  });
+  it('selects Appeteasers', () => {
+    cy.contains('Appeteasers').click();
+    cy.contains('Tater Tots');
+    cy.contains('Buffalo Wings');
+>>>>>>> lesson-6
     cy.contains('Cheese Burger').should('not.exist');
     cy.contains('Fajita Tacos').should('not.exist');
   });

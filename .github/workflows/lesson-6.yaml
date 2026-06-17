@@ -50,4 +50,8 @@ jobs:
         if: always()
         with:
           name: cypress-videos
+<<<<<<< HEAD
           path: frontend/cypress/videos
+=======
+          path: frontend/cypress/videos
+>>>>>>> lesson-6
